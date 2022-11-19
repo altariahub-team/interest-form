@@ -1,3 +1,4 @@
+import Input from "components/formElements/input";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -17,7 +18,25 @@ const Home: NextPage = () => {
             <Logo />
           </div>
         </header>
-        <main></main>
+        <main className="flex-1 px-[15vw] flex justify-center">
+          <div className=" mt-9 w-full max-w-3xl">
+            <h2 className=" text-center text-[#4A3353] text-4xl font-bold ">
+              Please fill out the information below
+            </h2>
+            <section className=" mb-12 mt-12">
+              <Input />
+              <Input placeholder="Enter Email Address" />
+            </section>
+
+            <section className=" mb-12">
+              <h3 className=" text-center text-[#4A3353] text-4xl font-bold mb-4">
+                What would you like to do on Altaria Hub?
+              </h3>
+              <Input />
+              <Input placeholder="Enter Email Address" />
+            </section>
+          </div>
+        </main>
 
         <footer className=" p-7 bg-[#4A3353] text-white flex justify-center text-sm">
           <div>
