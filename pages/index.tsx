@@ -33,7 +33,27 @@ const Home: NextPage = () => {
                 What would you like to do on Altaria Hub?
               </h3>
               <Input />
-              <Input placeholder="Enter Email Address" />
+
+              {[
+                { label: "Register my Logistics Company", value: "" },
+                { label: "Sign up to Sell Products", value: "" },
+
+                { label: "Register as a Customer", value: "" },
+
+                { label: "Host my event on Altaria Hub", value: "" },
+                { label: "Register my Donation Centre", value: "" },
+                { label: "Host my community on Altaria Hub", value: "" },
+              ].map((item, idx) => (
+                <div className="border-2 border-[#E4E0E5] w-full p-5 font-semibold text-[#4A3353] rounded-lg mb-4 flex gap-2">
+                  <input type="checkbox" className=" cursor-pointer" />
+                  <label>{item.label}</label>
+                </div>
+              ))}
+              <div className="mt-10 flex justify-center">
+                <button className=" font-semibold text-white bg-[#FF4B0D] px-12 py-4 rounded-xl">
+                  Submit
+                </button>
+              </div>
             </section>
           </div>
         </main>
