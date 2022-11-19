@@ -44,7 +44,10 @@ const Home: NextPage = () => {
                 { label: "Register my Donation Centre", value: "" },
                 { label: "Host my community on Altaria Hub", value: "" },
               ].map((item, idx) => (
-                <div className="border-2 border-[#E4E0E5] w-full p-5 font-semibold text-[#4A3353] rounded-lg mb-4 flex gap-2">
+                <div
+                  key={`${item.label}_${idx}`}
+                  className="border-2 border-[#E4E0E5] w-full p-5 font-semibold text-[#4A3353] rounded-lg mb-4 flex gap-2"
+                >
                   <input type="checkbox" className=" cursor-pointer" />
                   <label>{item.label}</label>
                 </div>
