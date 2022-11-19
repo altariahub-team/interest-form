@@ -32,7 +32,7 @@ const Home: NextPage = () => {
               <h3 className=" text-center text-[#4A3353] text-4xl font-bold mb-4">
                 What would you like to do on Altaria Hub?
               </h3>
-              <Input />
+              {/* <Input /> */}
 
               {[
                 { label: "Register my Logistics Company", value: "" },
