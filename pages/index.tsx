@@ -2,7 +2,10 @@ import Input from "components/formElements/input";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import Logo from "styles/assets/logo";
+import Logo from "assets/logo";
+import Profile from "assets/profile";
+import Envelop from "assets/envelop";
+import { Checkbox } from "@mantine/core";
 
 const Home: NextPage = () => {
   return (
@@ -24,8 +27,8 @@ const Home: NextPage = () => {
               Please fill out the information below
             </h2>
             <section className=" mb-12 mt-12">
-              <Input />
-              <Input placeholder="Enter Email Address" />
+              <Input icon={Profile} />
+              <Input placeholder="Enter Email Address" icon={Envelop} />
             </section>
 
             <section className=" mb-12">
@@ -33,7 +36,10 @@ const Home: NextPage = () => {
                 What would you like to do on Altaria Hub?
               </h3>
               {/* <Input /> */}
-
+              <div className="border-2 border-[#E4E0E5] p-5 font-semibold text-[#4A3353] rounded-lg mb-4 flex gap-2 w-fit">
+                <input type="checkbox" className=" cursor-pointer" />
+                <label>Select all options</label>
+              </div>
               {[
                 { label: "Register my Logistics Company", value: "" },
                 { label: "Sign up to Sell Products", value: "" },
@@ -48,12 +54,18 @@ const Home: NextPage = () => {
                   key={`${item.label}_${idx}`}
                   className="border-2 border-[#E4E0E5] w-full p-5 font-semibold text-[#4A3353] rounded-lg mb-4 flex gap-2"
                 >
-                  <input type="checkbox" className=" cursor-pointer" />
-                  <label>{item.label}</label>
+                  <Checkbox
+                    label={item.label}
+                    className="cursor-pointer"
+                    color="#FF4B0D"
+                  />
                 </div>
               ))}
               <div className="mt-10 flex justify-center">
-                <button className=" font-semibold text-white bg-[#FF4B0D] px-12 py-4 rounded-xl">
+                <button
+                  className=" font-semibold text-white bg-[#FF4B0D] px-12 py-4 rounded-xl opacity-70 cursor-not-allowed "
+                  disabled
+                >
                   Submit
                 </button>
               </div>
