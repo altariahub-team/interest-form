@@ -6,8 +6,32 @@ import Logo from "assets/logo";
 import Profile from "assets/profile";
 import Envelop from "assets/envelop";
 import { Checkbox } from "@mantine/core";
+import { useState } from "react";
+import { MainFormType } from "types";
 
 const Home: NextPage = () => {
+  const [payload, setPayload] = useState<MainFormType>({
+    fullName: "",
+    email: "",
+    all: false,
+    logistics: false,
+    vendor: false,
+    community: false,
+    events: false,
+    donations: false,
+    customer: false,
+  });
+
+  const canProceed =
+    payload.fullName &&
+    payload.email &&
+    (payload.all ||
+      payload.logistics ||
+      payload.customer ||
+      payload.vendor ||
+      payload.events ||
+      payload.donations ||
+      payload.community);
   return (
     <div>
       <Head>
@@ -16,39 +40,67 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex flex-col justify-between min-h-screen">
-        <header>
+        <header className=" fixed w-screen top-0 bg-white z-50">
           <div className="flex justify-center p-7">
             <Logo />
           </div>
         </header>
-        <main className="flex-1 px-[15vw] flex justify-center">
+        <main className="flex-1 px-[10vw] flex justify-center mt-32">
           <div className=" mt-9 w-full max-w-3xl">
-            <h2 className=" text-center text-[#4A3353] text-4xl font-bold ">
+            <h2 className=" text-center text-[#4A3353] text-xl md:text-4xl font-bold ">
               Please fill out the information below
             </h2>
             <section className=" mb-12 mt-12">
-              <Input icon={Profile} />
-              <Input placeholder="Enter Email Address" icon={Envelop} />
+              <Input
+                icon={Profile}
+                value={payload?.fullName}
+                placeholder="Enter Full Name"
+                onChange={(e: any) =>
+                  setPayload({ ...payload, fullName: e.target.value })
+                }
+              />
+              <Input
+                placeholder="Enter Email Address"
+                icon={Envelop}
+                value={payload?.email}
+                onChange={(e: any) =>
+                  setPayload({ ...payload, email: e.target.value })
+                }
+              />
             </section>
 
             <section className=" mb-12">
-              <h3 className=" text-center text-[#4A3353] text-4xl font-bold mb-4">
+              <h3 className=" text-center text-[#4A3353] text-xl md:text-4xl font-bold mb-4">
                 What would you like to do on Altaria Hub?
               </h3>
               {/* <Input /> */}
               <div className="border-2 border-[#E4E0E5] p-5 font-semibold text-[#4A3353] rounded-lg mb-4 flex gap-2 w-fit">
-                <input type="checkbox" className=" cursor-pointer" />
-                <label>Select all options</label>
+                <Checkbox
+                  label="Select all options"
+                  className=" text-sm md:text-base cursor-pointer"
+                  color="#FF4B0D"
+                  checked={
+                    //@ts-ignore
+                    payload?.all
+                  }
+                  onChange={(e) =>
+                    //@ts-ignore
+                    setPayload({ ...payload, all: e.currentTarget.checked })
+                  }
+                />
               </div>
               {[
-                { label: "Register my Logistics Company", value: "" },
-                { label: "Sign up to Sell Products", value: "" },
+                { label: "Register my Logistics Company", value: "logistics" },
+                { label: "Sign up to Sell Products", value: "vendor" },
 
-                { label: "Register as a Customer", value: "" },
+                { label: "Register as a Customer", value: "customer" },
 
-                { label: "Host my event on Altaria Hub", value: "" },
-                { label: "Register my Donation Centre", value: "" },
-                { label: "Host my community on Altaria Hub", value: "" },
+                { label: "Host my event on Altaria Hub", value: "events" },
+                { label: "Register my Donation Centre", value: "donations" },
+                {
+                  label: "Host my community on Altaria Hub",
+                  value: "community",
+                },
               ].map((item, idx) => (
                 <div
                   key={`${item.label}_${idx}`}
@@ -56,15 +108,28 @@ const Home: NextPage = () => {
                 >
                   <Checkbox
                     label={item.label}
-                    className="cursor-pointer"
+                    className="text-sm md:text-base cursor-pointer"
                     color="#FF4B0D"
+                    checked={
+                      //@ts-ignore
+                      payload[item.value] || payload.all
+                    }
+                    onChange={(e) =>
+                      //@ts-ignore
+                      setPayload({
+                        ...payload,
+                        [item.value]: e.currentTarget.checked,
+                      })
+                    }
                   />
                 </div>
               ))}
               <div className="mt-10 flex justify-center">
                 <button
-                  className=" font-semibold text-white bg-[#FF4B0D] px-12 py-4 rounded-xl opacity-70 cursor-not-allowed "
-                  disabled
+                  className={`font-semibold text-white bg-[#FF4B0D] px-12 py-4 rounded-xl ${
+                    canProceed ? "" : "opacity-70 cursor-not-allowed"
+                  } `}
+                  disabled={!canProceed}
                 >
                   Submit
                 </button>

@@ -1,17 +1,19 @@
+import { InputType } from "types";
+
 export default function Input({
   icon: Icon,
   placeholder,
+  value,
+
   ...rest
-}: {
-  icon?: any;
-  placeholder?: string;
-}) {
+}: InputType) {
   return (
     <div className="mb-3 relative">
       <input
-        placeholder="Enter Full Name"
+        placeholder={placeholder}
+        value={value}
         {...rest}
-        className={`border-2 border-[#E4E0E5] w-full p-5 font-semibold text-[#4A3353] rounded-lg ${
+        className={`border-2 border-[#E4E0E5] w-full p-5 font-semibold text-[#4A3353] rounded-lg text-sm md:text-base ${
           Icon ? "pl-11" : ""
         }`}
       />
