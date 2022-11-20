@@ -8,8 +8,12 @@ import Envelop from "assets/envelop";
 import { Checkbox } from "@mantine/core";
 import { useState } from "react";
 import { MainFormType } from "types";
+import axios from "axios";
+import { baseURL } from "config/constants";
+import { Loader } from "@mantine/core";
 
 const Home: NextPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [payload, setPayload] = useState<MainFormType>({
     fullName: "",
     email: "",
@@ -32,6 +36,27 @@ const Home: NextPage = () => {
       payload.events ||
       payload.donations ||
       payload.community);
+
+  const submit = async () => {
+    try {
+      setIsLoading(true);
+      const body = {
+        fullName: payload.fullName,
+        email: payload.email,
+        actions: Object.keys(payload).filter(
+          //@ts-ignore
+          (key: string) => payload[key] === true
+        ),
+      };
+      console.log(body);
+      const { data } = await axios.post(baseURL + "/interests", body);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div>
       <Head>
@@ -126,12 +151,16 @@ const Home: NextPage = () => {
               ))}
               <div className="mt-10 flex justify-center">
                 <button
-                  className={`font-semibold text-white bg-[#FF4B0D] px-12 py-4 rounded-xl ${
-                    canProceed ? "" : "opacity-70 cursor-not-allowed"
+                  className={`font-semibold text-white bg-[#FF4B0D] px-12 py-4 rounded-xl flex gap-2 items-center ${
+                    canProceed || !isLoading
+                      ? ""
+                      : "opacity-70 cursor-not-allowed"
                   } `}
-                  disabled={!canProceed}
+                  disabled={!canProceed || isLoading}
+                  onClick={submit}
                 >
-                  Submit
+                  <p>Submit</p>
+                  {isLoading && <Loader size={15} color="white" />}
                 </button>
               </div>
             </section>
@@ -140,9 +169,13 @@ const Home: NextPage = () => {
 
         <footer className=" p-7 bg-[#4A3353] text-white flex justify-center text-sm">
           <div>
-            <p>
-              <span className=" font-bold">©2022, Altaria Hub.</span> All Rights
-              Reserved | Designed by{" "}
+            <p className="flex justify-center items-center flex-col md:flex-row">
+              <span>
+                <span className=" text-xs md:text-base font-bold">
+                  ©2022, Altaria Hub.
+                </span>{" "}
+                All Rights Reserved | Designed by
+              </span>
               <span className=" font-bold">Shodipo Michael.</span>
             </p>
           </div>
